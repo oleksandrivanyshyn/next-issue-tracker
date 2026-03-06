@@ -27,6 +27,16 @@ const NewIssuePage = () => {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post('/api/issues', data);
+      router.push('/issues');
+    } catch (error: unknown) {
+      setIsSubmitting(false);
+      setError('Failed to create issue');
+    }
+  });
   return (
     <div>
       {error && (
@@ -34,19 +44,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="max-w-xl space-y-3 mx-auto"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setIsSubmitting(true);
-            await axios.post('/api/issues', data);
-            router.push('/issues');
-          } catch (error: unknown) {
-            setIsSubmitting(false);
-            setError('Failed to create issue');
-          }
-        })}
-      >
+      <form className="max-w-xl space-y-3 mx-auto" onSubmit={onSubmit}>
         <TextField.Root placeholder="Title" {...register('title')} />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
