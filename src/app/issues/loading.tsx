@@ -1,17 +1,13 @@
-import { Button, Skeleton, Table } from '@radix-ui/themes';
+import { Skeleton, Table } from '@radix-ui/themes';
 import React from 'react';
+import IssueActions from '@/app/issues/_components/IssueActions';
 
 const LoadingIssuesPage = () => {
   const issues = [1, 2, 3, 4, 5];
 
   return (
     <div>
-      <div className="mb-5">
-        <Skeleton>
-          <Button>New Issue</Button>
-        </Skeleton>
-      </div>
-
+      <IssueActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
