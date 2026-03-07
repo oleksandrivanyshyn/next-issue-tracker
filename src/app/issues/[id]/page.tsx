@@ -5,10 +5,11 @@ import { Box, Grid } from '@radix-ui/themes';
 import EditIssueButton from '@/app/issues/[id]/_components/EditIssueButton';
 import IssueDetails from '@/app/issues/[id]/_components/IssueDetails';
 
-interface IssueDetailPageProps {
+const IssueDetailPage = async ({
+  params,
+}: {
   params: Promise<{ id: string }>;
-}
-const IssueDetailPage = async ({ params }: IssueDetailPageProps) => {
+}) => {
   const { id } = await params;
   let issue;
   try {
