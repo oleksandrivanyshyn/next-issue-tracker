@@ -21,3 +21,8 @@ body, .radix-themes {
   color: var(--foreground);
   font-family: var(--font-inter);
 }
+@layer components {
+  .nav-link{
+    @apply text-zinc-500 hover:text-zinc-800 transition-colors
+  }
+}
