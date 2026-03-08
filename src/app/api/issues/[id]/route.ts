@@ -24,7 +24,7 @@ export async function PATCH(
   });
   return Response.json(updatedIssue);
 }
-export async function Delete(
+export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
