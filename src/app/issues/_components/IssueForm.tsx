@@ -50,7 +50,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form className="max-w-xl space-y-3 mx-auto" onSubmit={onSubmit}>
+      <form className="max-w-xl space-y-3" onSubmit={onSubmit}>
         <TextField.Root
           defaultValue={issue?.title}
           placeholder="Title"
