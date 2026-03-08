@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Callout, Spinner, TextField } from '@radix-ui/themes';
 import 'easymde/dist/easymde.min.css';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { Issue } from '@/generated/prisma/client';
 import IssueFormSkeleton from '@/app/issues/_components/IssueFormSkeleton';
 import dynamic from 'next/dynamic';
+import { useMutation } from '@tanstack/react-query';
 
 type IssueFormData = z.infer<typeof issueSchema>;
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
@@ -29,25 +30,29 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     resolver: zodResolver(issueSchema),
   });
   const router = useRouter();
-  const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      setIsSubmitting(true);
-      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
-      else await axios.post('/api/issues', data);
+
+  const {
+    mutate: submitIssue,
+    isPending: isSubmitting,
+    error,
+  } = useMutation({
+    mutationFn: (data: IssueFormData) =>
+      issue
+        ? axios.patch(`/api/issues/${issue.id}`, data)
+        : axios.post('/api/issues', data),
+    onSuccess: () => {
       router.push('/issues');
       router.refresh();
-    } catch (error: unknown) {
-      setIsSubmitting(false);
-      setError('Failed to create issue');
-    }
+    },
   });
+
+  const onSubmit = handleSubmit((data) => submitIssue(data));
+
   return (
     <div>
       {error && (
         <Callout.Root color="red" className="mb-5">
-          <Callout.Text>{error}</Callout.Text>
+          <Callout.Text>Failed to submit issue</Callout.Text>
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={onSubmit}>

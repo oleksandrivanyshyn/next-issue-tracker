@@ -3,22 +3,23 @@ import React, { useState } from 'react';
 import { AlertDialog, Button, Flex, Spinner } from '@radix-ui/themes';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
   const [error, setError] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const deleteIssue = async () => {
-    try {
-      setIsDeleting(true);
-      await axios.delete(`/api/issues/${issueId}`);
+
+  const { mutate: deleteIssue, isPending: isDeleting } = useMutation({
+    mutationFn: () => axios.delete(`/api/issues/${issueId}`),
+    onSuccess: () => {
       router.push('/issues');
       router.refresh();
-    } catch (error) {
-      setIsDeleting(false);
+    },
+    onError: () => {
       setError(true);
-    }
-  };
+    },
+  });
+
   return (
     <>
       <AlertDialog.Root>
@@ -42,7 +43,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button variant="solid" color="red" onClick={deleteIssue}>
+              <Button variant="solid" color="red" onClick={() => deleteIssue()}>
                 Delete Issue
               </Button>
             </AlertDialog.Action>
