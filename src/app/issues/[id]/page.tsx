@@ -5,12 +5,14 @@ import { Box, Flex, Grid } from '@radix-ui/themes';
 import EditIssueButton from '@/app/issues/[id]/_components/EditIssueButton';
 import IssueDetails from '@/app/issues/[id]/_components/IssueDetails';
 import DeleteIssueButton from '@/app/issues/[id]/_components/DeleteIssueButton';
+import { auth } from '@/auth';
 
 const IssueDetailPage = async ({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) => {
+  const session = await auth();
   const { id } = await params;
   let issue;
   try {
@@ -26,10 +28,12 @@ const IssueDetailPage = async ({
         <IssueDetails issue={issue}></IssueDetails>
       </Box>
       <Box>
-        <Flex direction="column" gap="4">
-          <EditIssueButton issueId={issue.id} />
-          <DeleteIssueButton issueId={issue.id} />
-        </Flex>
+        {session && (
+          <Flex direction="column" gap="4">
+            <EditIssueButton issueId={issue.id} />
+            <DeleteIssueButton issueId={issue.id} />
+          </Flex>
+        )}
       </Box>
     </Grid>
   );
