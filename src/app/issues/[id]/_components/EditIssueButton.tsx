@@ -5,9 +5,11 @@ import { Button } from '@radix-ui/themes';
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
   return (
-    <Button>
-      <Pencil2Icon />
-      <Link href={`/issues/${issueId}/edit`}>Edit Issue</Link>
+    <Button asChild>
+      <Link href={`/issues/${issueId}/edit`}>
+        <Pencil2Icon />
+        <span>Edit Issue</span>
+      </Link>
     </Button>
   );
 };
