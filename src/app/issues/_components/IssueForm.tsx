@@ -5,18 +5,20 @@ import 'easymde/dist/easymde.min.css';
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { issueSchema } from '@/schemas/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Issue } from '@/generated/prisma/client';
+import IssueFormSkeleton from '@/app/issues/_components/IssueFormSkeleton';
+import dynamic from 'next/dynamic';
 
 type IssueFormData = z.infer<typeof issueSchema>;
-
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
   ssr: false,
+  loading: () => <IssueFormSkeleton />,
 });
+
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const {
     register,
@@ -35,6 +37,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
       else await axios.post('/api/issues', data);
       router.push('/issues');
+      router.refresh();
     } catch (error: unknown) {
       setIsSubmitting(false);
       setError('Failed to create issue');
