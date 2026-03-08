@@ -6,6 +6,7 @@ import EditIssueButton from '@/app/issues/[id]/_components/EditIssueButton';
 import IssueDetails from '@/app/issues/[id]/_components/IssueDetails';
 import DeleteIssueButton from '@/app/issues/[id]/_components/DeleteIssueButton';
 import { auth } from '@/auth';
+import AssigneeSelect from '@/app/issues/[id]/_components/AssigneeSelect';
 
 const IssueDetailPage = async ({
   params,
@@ -30,6 +31,7 @@ const IssueDetailPage = async ({
       <Box>
         {session && (
           <Flex direction="column" gap="4">
+            <AssigneeSelect />
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />
           </Flex>
