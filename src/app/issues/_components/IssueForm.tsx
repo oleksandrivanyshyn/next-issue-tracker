@@ -41,7 +41,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         ? axios.patch(`/api/issues/${issue.id}`, data)
         : axios.post('/api/issues', data),
     onSuccess: () => {
-      router.push('/issues');
+      router.push('/issues/list');
       router.refresh();
     },
   });
