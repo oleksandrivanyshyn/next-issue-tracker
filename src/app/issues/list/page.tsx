@@ -4,10 +4,21 @@ import prisma from '@/lib/prisma';
 import IssueStatusBadge from '@/components/IssueStatusBadge';
 import IssueActions from '@/app/issues/list/_components/IssueActions';
 import Link from '@/components/Link';
+import { Status } from '@/generated/prisma/enums';
 
-const IssuesPage = async () => {
+interface Props {
+  searchParams: Promise<{ status?: Status }>;
+}
+const IssuesPage = async ({ searchParams }: Props) => {
+  const { status } = await searchParams;
+  const statuses = Object.values(Status);
+
+  const validatedStatus = statuses.includes(status as Status)
+    ? (status as Status)
+    : undefined;
   const issues = await prisma.issue.findMany({
     orderBy: { createdAt: 'asc' },
+    where: { status: validatedStatus },
   });
   return (
     <div>
