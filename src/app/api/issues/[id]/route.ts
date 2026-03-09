@@ -7,10 +7,10 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  // const session = await auth();
-  // if (!session) {
-  //   return Response.json({ message: 'Unauthorized' }, { status: 401 });
-  // }
+  const session = await auth();
+  if (!session) {
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
+  }
   const { id } = await params;
   const body = await request.json();
   const validation = patchIssueSchema.safeParse(body);
