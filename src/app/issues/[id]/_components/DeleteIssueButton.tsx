@@ -12,7 +12,7 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const { mutate: deleteIssue, isPending: isDeleting } = useMutation({
     mutationFn: () => axios.delete(`/api/issues/${issueId}`),
     onSuccess: () => {
-      router.push('/issues');
+      router.push('/issues/list');
       router.refresh();
     },
     onError: () => {
