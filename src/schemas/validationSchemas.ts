@@ -1,10 +1,12 @@
 import { z } from 'zod';
+import { Status } from '@/generated/prisma/enums';
 
 export const issueSchema = z.object({
   title: z.string().min(1, 'Title is required. ').max(255),
   description: z
     .string('Description is required.')
     .min(1, 'Description is required. '),
+  status: z.enum(Status),
 });
 export const patchIssueSchema = z.object({
   title: z.string().min(1, 'Title is required. ').max(255).optional(),
@@ -13,5 +15,6 @@ export const patchIssueSchema = z.object({
     .min(1, 'Description is required. ')
     .max(65535)
     .optional(),
+  status: z.enum(Status).optional(),
   assigneeToUserId: z.string().min(1).max(255).optional().nullable(),
 });

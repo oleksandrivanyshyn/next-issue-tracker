@@ -1,6 +1,13 @@
 'use client';
 import React from 'react';
-import { Button, Callout, Spinner, TextField } from '@radix-ui/themes';
+import {
+  Button,
+  Callout,
+  Flex,
+  Select,
+  Spinner,
+  TextField,
+} from '@radix-ui/themes';
 import 'easymde/dist/easymde.min.css';
 import { Controller, useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -10,6 +17,7 @@ import { issueSchema } from '@/schemas/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/components/ErrorMessage';
 import { Issue } from '@/generated/prisma/client';
+import { Status } from '@/generated/prisma/enums';
 import IssueFormSkeleton from '@/app/issues/_components/IssueFormSkeleton';
 import dynamic from 'next/dynamic';
 import { useMutation } from '@tanstack/react-query';
@@ -45,7 +53,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       router.refresh();
     },
   });
-
+  const statuses = Object.values(Status);
   const onSubmit = handleSubmit((data) => submitIssue(data));
 
   return (
@@ -71,10 +79,35 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           )}
         ></Controller>
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={isSubmitting}>
-          {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
-          {isSubmitting && <Spinner />}
-        </Button>
+        <Flex direction="column" width="150px" gap="4">
+          <Controller
+            name="status"
+            control={control}
+            defaultValue={issue?.status || 'OPEN'}
+            render={({ field }) => (
+              <Select.Root
+                value={field.value || 'OPEN'}
+                onValueChange={field.onChange}
+              >
+                <Select.Trigger placeholder="Select a status..." />
+                <Select.Content>
+                  <Select.Group>
+                    <Select.Label>Statuses</Select.Label>
+                    {statuses.map((status) => (
+                      <Select.Item key={status} value={status}>
+                        {status}
+                      </Select.Item>
+                    ))}
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            )}
+          />
+          <Button disabled={isSubmitting}>
+            {issue ? 'Update Issue' : 'Submit New Issue'}{' '}
+            {isSubmitting && <Spinner />}
+          </Button>
+        </Flex>
       </form>
     </div>
   );
