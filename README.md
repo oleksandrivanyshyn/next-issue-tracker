@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🐞 Next Issue Tracker
 
-First, run the development server:
+A full-stack, production-ready issue tracking application designed for managing software bugs and project tasks. Built with the **Next.js App Router**, it features secure authentication, interactive dashboard analytics.
+
+🔗 **Live Demo:** [Open App (Vercel)](https://next-issue-tracker-taupe.vercel.app/) 
+
+## 🛠 Tech Stack
+
+**Frontend & Framework:**
+- **Next.js** (React Framework with App Router)
+- **TypeScript** (End-to-end type safety)
+- **Tailwind CSS** (Utility-first styling)
+- **React Query** (Client-side data fetching and state)
+
+**Backend & Data:**
+- **Next.js API Routes** (Serverless backend)
+- **Prisma** (Next-generation ORM)
+- **PostgreSQL / MySQL** (Relational Database via Prisma)
+- **NextAuth.js** (Authentication and session management)/route.ts]
+
+**Validation & Observability:**
+- **Zod** (Schema validation for API requests and forms)
+- **Sentry** (Performance and error tracking)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up the full-stack application locally.
+
+### 🛠️ Local Development Setup
+
+1. **Clone the repository:**
+```bash
+git clone [https://github.com/oleksandrivanyshyn/next-issue-tracker.git](https://github.com/oleksandrivanyshyn/next-issue-tracker.git)
+cd next-issue-tracker
+
+```
+
+2. **Install dependencies:**
+
+```bash
+npm install
+
+```
+
+3. **Set up environment variables:**
+Create a `.env` file in the root directory. You will need to configure your database connection, NextAuth secrets, and Sentry credentials:
+
+```env
+DATABASE_URL=""
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET=""
+
+```
+
+4. **Initialize the Database:**
+Apply Prisma migrations to set up your database schema and generate prisma client:
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
+
+5. **Run the development server:**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. **Access the App:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Open [http://localhost:3000](https://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📂 Project Highlights
 
-To learn more about Next.js, take a look at the following resources:
+### ✅ Architecture & Data Integrity
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* **Full-Stack Next.js:** Seamlessly combines server-side rendering (SSR), API routes, and client-side interactivity in a single codebase.
+* **Type-Safe ORM:** Uses Prisma to ensure that database queries are fully typed from the backend all the way to the frontend React components.
+* **Robust Validation:** Implements strict data validation on both the client (forms) and server (API) using predefined schemas.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 🖼 Features
 
-## Deploy on Vercel
+* **Interactive Dashboard:** View project health at a glance with graphical issue summaries and charts tracking Open, In Progress, and Closed tasks.
+* **Comprehensive Issue Management:** Full CRUD capabilities to create new issues, edit details, delete, and explicitly assign tasks to registered users.
+* **Dynamic Table & Filtering:** Easily navigate large amounts of data using built-in pagination and status filters (Open/In Progress/Closed).
+* **Production Observability:** Fully integrated with Sentry for real-time error logging and performance monitoring on both the edge and server.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Would you like me to suggest some GitHub Topics (tags) to go along with this one?
