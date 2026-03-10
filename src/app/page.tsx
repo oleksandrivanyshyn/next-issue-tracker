@@ -4,6 +4,7 @@ import { Flex, Grid } from '@radix-ui/themes';
 import IssueChart from '@/app/_components/IssueChart';
 import LatestIssues from '@/app/_components/LatestIssues';
 
+export const dynamic = 'force-dynamic';
 export default async function Home() {
   const [open, inProgress, closed] = await Promise.all([
     prisma.issue.count({ where: { status: 'OPEN' } }),
